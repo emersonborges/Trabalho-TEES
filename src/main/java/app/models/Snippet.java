@@ -3,17 +3,17 @@ package app.models;
 @javax.persistence.Entity
 public class Snippet extends Entity {
 	
-	private String home;
+	private String nome;
 	private String tags;
 	private String linguagem;
 	private String codigo;
 	
-	public void setHome(String home) {
-		this.home = home;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	
-	public String getHome() {
-		return home;
+	public String getNome() {
+		return nome;
 	}
 	
 	public void setTags(String tags) {

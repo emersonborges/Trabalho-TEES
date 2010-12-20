@@ -3,6 +3,7 @@ package app.repositories;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import br.com.caelum.vraptor.ioc.Component;
 import app.models.Snippet;
@@ -18,13 +19,12 @@ public class SnippetRepositoryImpl
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Snippet> findByTag(String tag) {
+	public List<Snippet> findbyTag(String tag) {
 		String t = "%"+ tag + "%";
+		System.out.println(tag);
 		Query q = entityManager.createQuery("From Snippet " + "where tags like :tag" );
 		q.setParameter("tag", t);  
-	return  (List<Snippet>)q.getResultList();
-		
-		
+		return  (List<Snippet>)q.getResultList();				
 		
 	}
 }

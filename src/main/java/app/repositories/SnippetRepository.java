@@ -19,6 +19,6 @@ public interface SnippetRepository {
 	
 	List<Snippet> findAll();
 	
-	List<Snippet> findByTag(String tag);
+	List<Snippet> findbyTag(String tag);
 
 }

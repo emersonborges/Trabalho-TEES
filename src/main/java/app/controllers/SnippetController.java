@@ -2,6 +2,8 @@ package app.controllers;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import app.models.Snippet;
 import app.repositories.SnippetRepository;
 import br.com.caelum.vraptor.Delete;
@@ -12,6 +14,7 @@ import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
+import br.com.caelum.vraptor.view.Results;
 
 @Resource
 public class SnippetController {
@@ -30,7 +33,8 @@ public class SnippetController {
 	@Path("/snippets")
 	public List<Snippet> index() {
 		return repository.findAll();
-	}*/
+	}
+	*/
 	
 	@Get
 	@Path("/snippets")
@@ -44,11 +48,11 @@ public class SnippetController {
 			return snippetList;
 		}
 	}
-	
 	@Post
 	@Path("/snippets/search")
-	public void searchByTag(String tag) {	
-			result.redirectTo(this).index(null,repository.findByTag(tag));
+	public void searchByTag(String tag){
+		//JOptionPane.showMessageDialog(null, tag);
+		result.redirectTo(this).index(null, repository.findbyTag(tag));
 	}
 	
 	@Post
@@ -57,9 +61,8 @@ public class SnippetController {
 		validator.validate(snippet);
 		validator.onErrorUsePageOf(this).newSnippet();
 		repository.create(snippet);
-		result.redirectTo(this).index();
+		result.redirectTo(this).index(snippet,null);
 	}
-	
 	
 	@Get
 	@Path("/snippets/new")
@@ -73,13 +76,21 @@ public class SnippetController {
 		validator.validate(snippet);
 		validator.onErrorUsePageOf(this).edit(snippet);
 		repository.update(snippet);
-		result.redirectTo(this).index();
+		result.redirectTo(this).index(snippet,null);
 	}
+	
+	/*@Get
+	@Path("/snippets/{snippet.id}/edit")
+	public Snippet edit(Snippet snippet) {
+		//return repository.find(snippet.getId());
+		this.result.use(Results.logic()).redirectTo(SnippetController.class).index(repository.find(snippet.getId()),null);
+	}*/
 	
 	@Get
 	@Path("/snippets/{snippet.id}/edit")
-	public Snippet edit(Snippet snippet) {
-		return repository.find(snippet.getId());
+	public void edit(Snippet snippet) {
+		//result.redirectTo(this).index(repository.find(snippet.getId()), null);
+		result.use(Results.logic()).redirectTo(SnippetController.class).index(repository.find(snippet.getId()),null);
 	}
 
 	@Get
@@ -92,6 +103,7 @@ public class SnippetController {
 	@Path("/snippets/{snippet.id}")
 	public void destroy(Snippet snippet) {
 		repository.destroy(repository.find(snippet.getId()));
-		result.redirectTo(this).index();  
+		result.redirectTo(this).index(null,null);  
 	}
+	
 }
